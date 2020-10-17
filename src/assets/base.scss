@@ -1,0 +1,181 @@
+body {
+  line-height: 1.8;
+  font-size: 14px;
+  font-family: 'Microsoft YaHei', '微软雅黑', 'PingFang SC', 'HanHei SC', 'Helvetica Neue', 'Helvetica', 'STHeitiSC-Light', 'Arial', sans-serif;
+  color: #555;
+  background: #f5f5f5;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+li,
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+html,
+li,
+ol,
+p,
+pre,
+span,
+table,
+tbody,
+td,
+th,
+tr,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+
+a:active,
+a:link,
+a:visited,
+button,
+button:active,
+button:focus,
+button:invalid,
+input,
+input:active,
+input:focus,
+textarea,
+textarea:focus {
+  outline: 0;
+  outline-color: transparent;
+}
+
+img {
+  border: none;
+  outline: none;
+}
+
+input {
+  border-radius: 0;
+
+  &:hover,
+  &:active {
+    outline: 0;
+    outline-color: transparent;
+  }
+}
+
+a:link,
+a:visited {
+  text-decoration: none;
+  outline: none;
+}
+
+a:hover {
+  color: #08c;
+  outline: none;
+}
+
+a {
+  color: #369;
+  -webkit-transition: all 0.15s linear;
+  transition: all 0.15s linear;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+.clear:after,
+.clear:before {
+  content: '';
+  clear: both;
+  display: table;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+input[type="password"],
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="date"],
+input[type="datetime-local"],
+select,
+textarea {
+  border-radius: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ib {
+  display: inline-block;
+}
+
+.tran-thumb {
+  position: relative;
+  overflow: hidden;
+
+  img {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.ver-thumb {
+  position: relative;
+  overflow: hidden;
+
+  img {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}

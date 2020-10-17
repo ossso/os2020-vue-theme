@@ -1,0 +1,89 @@
+/* eslint-disable no-underscore-dangle */
+import Vue from 'vue';
+import Vuex from 'vuex';
+import {
+  message,
+} from 'ant-design-vue';
+
+Vue.use(Vuex);
+
+const titleElem = document.querySelector('title');
+
+const store = new Vuex.Store({
+  state: {
+    zbp: {
+      lang: {},
+    },
+    isLogin: false,
+    page: {
+      title: {},
+    },
+  },
+  mutations: {
+    /**
+     * 设置登录状态
+     */
+    setLogin(state, status) {
+      state.isLogin = !!status;
+    },
+    /**
+     * 设置zbp信息
+     */
+    setZBP(state, zbp) {
+      state.zbp = zbp;
+    },
+    /**
+     * 设置标题
+     */
+    setPageTitle(state, title) {
+      state.page.title = title;
+    },
+  },
+  actions: {
+    /**
+     * 获取基础配置
+     */
+    getBasicInfo({
+      commit,
+      dispatch,
+      state,
+    }) {
+      store._vm.$api({
+        query: {
+          mod: 'system',
+          act: 'basic_info',
+        },
+      }).then((res) => {
+        commit('setZBP', res.zbp);
+        commit('setLogin', res.is_logged_in);
+        // Todo res.current_member
+        if (state.page.title) {
+          dispatch('setPageTitle', state.page.title);
+        }
+      }).catch((err) => {
+        message.error(`getBasicInfo ${err.message}`);
+      });
+    },
+    /**
+     * 设置页面标题
+     */
+    setPageTitle({
+      commit,
+      state,
+    }, title) {
+      const {
+        zbp,
+      } = state;
+      if (zbp.name) {
+        titleElem.innerHTML = `${title} - ${zbp.name}`;
+      } else {
+        titleElem.innerHTML = `${title}`;
+      }
+      commit('setPageTitle', title);
+    },
+  },
+  modules: {
+  },
+});
+
+export default store;
