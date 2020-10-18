@@ -2618,6 +2618,11 @@ cli-width@^3.0.0:
   resolved "https://registry.npm.taobao.org/cli-width/download/cli-width-3.0.0.tgz#a2f48437a2caa9a22436e794bf071ec9e61cedf6"
   integrity sha1-ovSEN6LKqaIkNueUvwceyeYc7fY=
 
+clipboard-polyfill@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npm.taobao.org/clipboard-polyfill/download/clipboard-polyfill-3.0.1.tgz#6d4723c0fac435555ca923f26bc6d64f9c20b396"
+  integrity sha1-bUcjwPrENVVcqSPya8bWT5wgs5Y=
+
 clipboardy@^2.3.0:
   version "2.3.0"
   resolved "https://registry.npm.taobao.org/clipboardy/download/clipboardy-2.3.0.tgz#3c2903650c68e46a91b388985bc2774287dba290"

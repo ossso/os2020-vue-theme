@@ -1,13 +1,33 @@
 <template>
 <nav class="layout-navbar">
   <ul class="nav-menu">
-    <li class="nav-item" v-for="(item, index) in list" :key="index" @mouseenter="showMenuIndex = index" @mouseleave="showMenuIndex = -1">
-      <a :href="item.url" class="nav-item-link">{{item.name}}</a>
+    <li
+      v-for="(item, index) in list"
+      :key="index"
+      class="nav-item"
+      @mouseenter="showMenuIndex = index"
+      @mouseleave="showMenuIndex = -1"
+    >
+      <a
+        :href="item.url"
+        class="nav-item-link"
+        @click="toNavItem(item)"
+      >{{item.name}}</a>
       <template v-if="item.children">
         <transition name="nav-child-menu">
-          <ul class="nav-child-menu" v-show="showMenuIndex === index">
-            <li class="nav-child-item" v-for="(childItem, childIndex) in item.children" :key="childIndex">
-              <a :href="childItem.url" class="nav-child-item-link">{{childItem.name}}</a>
+          <ul
+            class="nav-child-menu"
+            v-show="showMenuIndex === index">
+            <li
+              v-for="(childItem, childIndex) in item.children"
+              :key="childIndex"
+              class="nav-child-item"
+            >
+              <a
+                :href="childItem.url"
+                class="nav-child-item-link"
+                @click="toNavItem(childItem)"
+              >{{childItem.name}}</a>
             </li>
           </ul>
         </transition>
@@ -87,12 +107,19 @@ export default {
       });
       this.list = list;
     },
+    /**
+     * 前往单条页面
+     */
+    toNavItem(item) {
+      console.log(item);
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 $navHeight: 60px;
+
 .layout-navbar {
   flex: 1;
   display: flex;
@@ -115,6 +142,7 @@ $navHeight: 60px;
 
     .nav-item-link {
       color: #2a3a4a;
+
       &:hover {
         color: #f66;
       }
@@ -139,6 +167,7 @@ $navHeight: 60px;
 
     .nav-child-item-link {
       color: #2a3a4a;
+
       &:hover {
         color: #f66;
       }
@@ -150,10 +179,12 @@ $navHeight: 60px;
 .nav-child-menu-leave-active {
   transition: all 300ms ease-in-out;
 }
+
 .nav-child-menu-enter {
   opacity: 0;
   margin-top: -20px;
 }
+
 .nav-child-menu-leave-to {
   opacity: 0;
   margin-top: 20px;

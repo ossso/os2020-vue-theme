@@ -4,6 +4,8 @@ import Vuex from 'vuex';
 import {
   message,
 } from 'ant-design-vue';
+import comment from './modules/comment';
+import user from './modules/user';
 
 Vue.use(Vuex);
 
@@ -56,7 +58,9 @@ const store = new Vuex.Store({
       }).then((res) => {
         commit('setZBP', res.zbp);
         commit('setLogin', res.is_logged_in);
-        // Todo res.current_member
+        if (res.is_logged_in) {
+          commit('user/setInfo', res.current_member);
+        }
         if (state.page.title) {
           dispatch('setPageTitle', state.page.title);
         }
@@ -83,6 +87,8 @@ const store = new Vuex.Store({
     },
   },
   modules: {
+    comment,
+    user,
   },
 });
 

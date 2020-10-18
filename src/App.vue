@@ -1,20 +1,20 @@
 <template>
 <div id="app">
-  <layout-header></layout-header>
+  <layout-header />
   <div class="container">
-    <template v-if="sidebar">
+    <template v-if="visibleSidebar">
       <div class="main">
         <router-view />
       </div>
       <aside class="sidebar">
-        <sidebar></sidebar>
+        <sidebar />
       </aside>
     </template>
     <template v-else>
       <router-view />
     </template>
   </div>
-  <layout-footer></layout-footer>
+  <layout-footer />
 </div>
 </template>
 
@@ -35,7 +35,7 @@ export default {
     Sidebar,
   },
   computed: {
-    sidebar() {
+    visibleSidebar() {
       if (this.$route.meta && this.$route.meta.sidebar) {
         return this.$route.meta.sidebar;
       }
@@ -46,10 +46,13 @@ export default {
     this.$store.dispatch('getBasicInfo');
   },
   mounted() {
-    this.initHandleRoute();
+    this.initRoute();
   },
   methods: {
-    initHandleRoute() {
+    /**
+     * 初始化路由
+     */
+    initRoute() {
       if (!window.location.search) return this;
       if (window.$os2020.routerType === 'rewrite') return this;
       const query = {};
@@ -87,6 +90,7 @@ export default {
 
   .sidebar {
     width: 300px;
+    overflow: hidden;
   }
 }
 </style>

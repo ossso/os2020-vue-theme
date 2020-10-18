@@ -74,7 +74,7 @@ export default {
 <style lang="scss" scoped>
 .waterfall-wrap {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   flex-direction: row;
   justify-content: space-between;
   margin: 0 -12px;

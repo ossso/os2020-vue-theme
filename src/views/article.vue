@@ -2,8 +2,15 @@
 <div class="article-container">
   <article class="article-box" v-if="info">
     <h1>{{info.Title}}</h1>
-    <div class="content" v-html="info.Content"></div>
+    <div ref="content" class="content" v-html="info.Content"></div>
+    <div class="article-info">
+      <span class="info-item author-info">作者：{{info.Author.StaticName}}</span>
+      <span class="info-item cate-info">分类：{{info.Category.Name}}</span>
+      <span class="info-item post-date-info">时间：{{date}}</span>
+    </div>
   </article>
+
+  <comment-list v-if="id" :post-id="id" />
 </div>
 </template>
 
@@ -11,17 +18,43 @@
 /**
  * 文章页面
  */
-
 import NProgress from 'nprogress';
+import * as clipboard from 'clipboard-polyfill/text';
+import prismFormat from '@/utils/prism';
+import CommentList from '@/components/comment/list.vue';
+
+function getParentNodeClass(className) {
+  if (this.nodeName === 'BODY' || this.nodeName === 'HTML') {
+    return undefined;
+  }
+  if (!this.parentNode) {
+    return undefined;
+  }
+  if (this.parentNode.classList && this.parentNode.classList.contains(className)) {
+    return this.parentNode;
+  }
+  return getParentNodeClass.call(this.parentNode, className);
+}
 
 export default {
   name: 'ArticlePage',
+  components: {
+    CommentList,
+  },
   data() {
     return {
       id: null,
       info: null,
       loading: false,
     };
+  },
+  computed: {
+    date() {
+      if (this.info && this.info.PostTime) {
+        return this.$dateFormat.format('yyyy/mm/dd hh:ii', this.info.PostTime * 1000);
+      }
+      return '';
+    },
   },
   mounted() {
     this.$title = '加载中...';
@@ -46,14 +79,44 @@ export default {
         query: {
           mod: 'post',
           id: this.id,
+          with_relations: 'Author,Category',
         },
       }).then((res) => {
         this.info = res.post;
-        this.info.Content = this.$htmlEscape(res.post.Content);
+        this.info.Content = prismFormat(this.$htmlEscape(res.post.Content));
         this.$title = res.post.Title;
+        this.$nextTick(() => {
+          this.queryCopyBtn();
+        });
       }).finally(() => {
         NProgress.done();
         this.loading = false;
+      });
+    },
+    /**
+     * 匹配复制按钮
+     */
+    queryCopyBtn() {
+      const copyBtnList = this.$refs.content.querySelectorAll('.copy-btn');
+      for (let i = 0; i < copyBtnList.length; i += 1) {
+        const item = copyBtnList[i];
+        item.addEventListener('click', () => {
+          const parentElem = getParentNodeClass.call(item, 'prism-highlight');
+          if (parentElem) {
+            const codeElem = parentElem.querySelector('code');
+            if (codeElem) {
+              this.copyText(codeElem.innerText);
+            }
+          }
+        });
+      }
+    },
+    /**
+     * 复制内容
+     */
+    copyText(text) {
+      clipboard.writeText(text).then(() => {
+        this.$message.success('复制成功');
       });
     },
   },
@@ -62,15 +125,28 @@ export default {
 
 <style lang="scss" scoped>
 .article-box {
+  margin-bottom: 24px;
   padding: 25px;
   background: #fff;
 
   h1 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     line-height: 1.6;
     font-size: 24px;
     color: #222;
     letter-spacing: 2px;
+  }
+
+  .content {
+    margin-bottom: 10px;
+  }
+
+  .article-info {
+    margin-bottom: 10px;
+    .info-item {
+      margin-right: 12px;
+      color: #888;
+    }
   }
 }
 </style>
@@ -138,6 +214,36 @@ export default {
         margin-bottom: 0;
       }
     }
+  }
+
+  .prism-highlight {
+    position: relative;
+  }
+  .pre-side {
+    position: absolute;
+    top: 0;
+    right: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .lang-name,
+  .copy-btn {
+    display: block;
+    height: 24px;
+    padding: 0 8px;
+    line-height: 24px;
+    font-size: 12px;
+    color: #888;
+    background: #eee;
+    border-radius: 0 0 6px 6px;
+    text-shadow: none;
+  }
+  .copy-btn {
+    margin-left: 10px;
+    color: #1a2a3a;
+    cursor: pointer;
   }
 }
 </style>
