@@ -1,21 +1,21 @@
 <template>
-<div id="app">
-  <layout-header />
-  <div class="container">
-    <template v-if="visibleSidebar">
-      <div class="main">
+  <div id="app">
+    <layout-header />
+    <div class="container">
+      <template v-if="visibleSidebar">
+        <div class="main">
+          <router-view />
+        </div>
+        <aside class="sidebar">
+          <sidebar />
+        </aside>
+      </template>
+      <template v-else>
         <router-view />
-      </div>
-      <aside class="sidebar">
-        <sidebar />
-      </aside>
-    </template>
-    <template v-else>
-      <router-view />
-    </template>
+      </template>
+    </div>
+    <layout-footer />
   </div>
-  <layout-footer />
-</div>
 </template>
 
 <script>

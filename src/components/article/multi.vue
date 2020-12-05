@@ -1,16 +1,16 @@
 <template>
-<router-link :to="routeInfo" :title="article.Title" class="article-multi">
-  <div class="article-multi-main">
-    <div class="article-multi-head">
-      <h2 class="title">{{article.Title}}</h2>
-      <div class="article-intro" v-html="article.Intro"></div>
+  <router-link :to="routeInfo" :title="article.Title" class="article-multi">
+    <div class="article-multi-main">
+      <div class="article-multi-head">
+        <h2 class="title">{{ article.Title }}</h2>
+        <div class="article-intro" v-html="article.Intro" />
+      </div>
+      <article-info :article="article" />
     </div>
-    <article-info :article="article" />
-  </div>
-  <div class="article-cover" v-if="article.Thumb">
-    <img :src="article.Thumb" :alt="article.Title" />
-  </div>
-</router-link>
+    <div v-if="article.Thumb" class="article-cover">
+      <img :src="article.Thumb" :alt="article.Title">
+    </div>
+  </router-link>
 </template>
 
 <script>
@@ -22,11 +22,14 @@ import ArticleInfo from './info.vue';
 
 export default {
   name: 'ArticleMulti',
-  props: {
-    article: Object,
-  },
   components: {
     ArticleInfo,
+  },
+  props: {
+    article: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   computed: {
     routeInfo() {

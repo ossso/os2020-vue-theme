@@ -1,10 +1,10 @@
 <template>
-<div class="home-main">
-  <waterfall v-if="type === 'waterfall'" :list="list" :column="2"></waterfall>
-  <div class="list-box" v-else>
-    <article-multi v-for="(item, index) in list" :key="index" :article="item"></article-multi>
+  <div class="home-main">
+    <waterfall v-if="type === 'waterfall'" :list="list" :column="2" />
+    <div v-else class="list-box">
+      <article-multi v-for="(item, index) in list" :key="index" :article="item" />
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -17,15 +17,14 @@ import ArticleMulti from '@/components/article/multi.vue';
 
 export default {
   name: 'Home',
-  mixins: [listMixin],
   components: {
     Waterfall,
     ArticleMulti,
   },
+  mixins: [listMixin],
   data() {
     return {
-      type: 'waterfall',
-      // type: 'mutil',
+      type: 'mutil',
     };
   },
   mounted() {

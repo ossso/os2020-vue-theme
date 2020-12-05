@@ -1,12 +1,12 @@
 <template>
-<header class="layout-header">
-  <div class="header-container">
-    <div class="site-name">
-      <h1 class="name"><router-link :to="{ path: '/' }">{{zbp.name}}</router-link></h1>
+  <header class="layout-header">
+    <div class="header-container">
+      <div class="site-name">
+        <h1 class="name"><router-link :to="{ path: '/' }">{{ zbp.name }}</router-link></h1>
+      </div>
+      <navbar />
     </div>
-    <navbar />
-  </div>
-</header>
+  </header>
 </template>
 
 <script>

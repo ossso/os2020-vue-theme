@@ -1,24 +1,24 @@
 <template>
-<div class="comment-item" :class="{ 'comment-child-item': child }">
-  <span class="comment-author-avatar">
-    <img :src="item.Author.Avatar" :alt="item.Author.StaticName">
-  </span>
-  <div class="comment-item-head">
-    <span class="nickname">{{item.Author.StaticName}}</span>
-    <span>
-      <span class="reply-btn">@回复Ta</span>
-      <span class="post-date">{{date}}</span>
+  <div class="comment-item" :class="{ 'comment-child-item': child }">
+    <span class="comment-author-avatar">
+      <img :src="item.Author.Avatar" :alt="item.Author.StaticName">
     </span>
+    <div class="comment-item-head">
+      <span class="nickname">{{ item.Author.StaticName }}</span>
+      <span>
+        <span class="reply-btn">@回复Ta</span>
+        <span class="post-date">{{ date }}</span>
+      </span>
+    </div>
+    <div class="comment-item-content">{{ item.Content }}</div>
+    <div class="comment-child-list">
+      <comment-item
+        v-for="(childItem, index) in item.Children"
+        :key="index"
+        :item="childItem"
+      />
+    </div>
   </div>
-  <div class="comment-item-content">{{item.Content}}</div>
-  <div class="comment-child-list">
-    <comment-item
-      v-for="(childItem, index) in item.Children"
-      :key="index"
-      :item="childItem"
-    />
-  </div>
-</div>
 </template>
 
 <script>
@@ -28,7 +28,10 @@
 export default {
   name: 'CommentItem',
   props: {
-    item: Object,
+    item: {
+      type: Object,
+      default: () => ({}),
+    },
     child: {
       type: Boolean,
       default: false,

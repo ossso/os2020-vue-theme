@@ -1,17 +1,17 @@
 <template>
-<div class="article-container">
-  <article class="article-box" v-if="info">
-    <h1>{{info.Title}}</h1>
-    <div ref="content" class="content" v-html="info.Content"></div>
-    <div class="article-info">
-      <span class="info-item author-info">作者：{{info.Author.StaticName}}</span>
-      <span class="info-item cate-info">分类：{{info.Category.Name}}</span>
-      <span class="info-item post-date-info">时间：{{date}}</span>
-    </div>
-  </article>
+  <div class="article-container">
+    <article v-if="info" class="article-box">
+      <h1>{{ info.Title }}</h1>
+      <div ref="content" class="content" v-html="info.Content" />
+      <div class="article-info">
+        <span class="info-item author-info">作者：{{ info.Author.StaticName }}</span>
+        <span class="info-item cate-info">分类：{{ info.Category.Name }}</span>
+        <span class="info-item post-date-info">时间：{{ date }}</span>
+      </div>
+    </article>
 
-  <comment-list v-if="id" :post-id="id" />
-</div>
+    <comment-list v-if="id" :post-id="id" />
+  </div>
 </template>
 
 <script>

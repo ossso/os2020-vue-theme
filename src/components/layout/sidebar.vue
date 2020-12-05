@@ -1,11 +1,11 @@
 <template>
-<aside class="sidebar">
-  <side-item
-    v-for="(item, index) in modules"
-    :key="index"
-    :item="item"
-  />
-</aside>
+  <aside class="sidebar">
+    <side-item
+      v-for="(item, index) in modules"
+      :key="index"
+      :item="item"
+    />
+  </aside>
 </template>
 
 <script>

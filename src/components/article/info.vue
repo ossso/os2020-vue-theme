@@ -1,18 +1,18 @@
 <template>
-<div class="article-info">
-  <div class="article-info-item">
-    <a-icon type="appstore" />
-    <span class="value">{{article.Category.Name}}</span>
+  <div class="article-info">
+    <div class="article-info-item">
+      <a-icon type="appstore" />
+      <span class="value">{{ article.Category.Name }}</span>
+    </div>
+    <div class="article-info-item">
+      <a-icon type="eye" />
+      <span class="value">{{ article.ViewNums }}</span>
+    </div>
+    <div class="article-info-item">
+      <a-icon type="message" />
+      <span class="value">{{ article.CommNums }}</span>
+    </div>
   </div>
-  <div class="article-info-item">
-    <a-icon type="eye" />
-    <span class="value">{{article.ViewNums}}</span>
-  </div>
-  <div class="article-info-item">
-    <a-icon type="message" />
-    <span class="value">{{article.CommNums}}</span>
-  </div>
-</div>
 </template>
 
 <script>
@@ -22,7 +22,10 @@
 export default {
   name: 'ArticleInfo',
   props: {
-    article: Object,
+    article: {
+      type: Object,
+      default: () => ({}),
+    },
   },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
-<div class="waterfall-wrap">
-  <waterfall-lane v-for="(item, index) in lane" :key="index" :list="item"></waterfall-lane>
-</div>
+  <div class="waterfall-wrap">
+    <waterfall-lane v-for="(item, index) in lane" :key="index" :list="item" />
+  </div>
 </template>
 
 <script>
@@ -17,7 +17,10 @@ export default {
     WaterfallLane,
   },
   props: {
-    list: Array,
+    list: {
+      type: Array,
+      default: () => ([]),
+    },
     column: {
       type: Number,
       default: 2,

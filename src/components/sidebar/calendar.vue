@@ -1,5 +1,5 @@
 <template>
-<div v-html="content" class="side-calendar-box"></div>
+  <div class="side-calendar-box" v-html="content" />
 </template>
 
 <script>
@@ -9,7 +9,10 @@
 export default {
   name: 'Calendar',
   props: {
-    content: String,
+    content: {
+      type: String,
+      default: '',
+    },
   },
 };
 </script>

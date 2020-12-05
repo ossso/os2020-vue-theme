@@ -1,27 +1,29 @@
 <template>
-<div class="side-item" :class="{ 'hide-title': item.IsHideTitle }">
-  <div v-if="!item.IsHideTitle" class="side-item-head">
-    <h3>{{item.Name}}</h3>
+  <div class="side-item" :class="{ 'hide-title': item.IsHideTitle }">
+    <div v-if="!item.IsHideTitle" class="side-item-head">
+      <h3>{{ item.Name }}</h3>
+    </div>
+    <template v-if="item.FileName === 'calendar'">
+      <calendar :content="item.Content" />
+    </template>
+    <template v-else-if="item.FileName === 'searchpanel'">
+      <search />
+    </template>
+    <template v-else>
+      <ul
+        v-if="item.Type === 'ul'"
+        class="side-content side-content-ul"
+        :class="item.HtmlID"
+        v-html="item.Content"
+      />
+      <div
+        v-else
+        class="side-content side-content-div"
+        :class="item.HtmlID"
+        v-html="item.Content"
+      />
+    </template>
   </div>
-  <template v-if="item.FileName === 'calendar'">
-    <calendar :content="item.Content" />
-  </template>
-  <template v-else-if="item.FileName === 'searchpanel'">
-    <search />
-  </template>
-  <template v-else>
-    <ul v-if="item.Type === 'ul'"
-      v-html="item.Content"
-      class="side-content side-content-ul"
-      :class="item.HtmlID"
-    />
-    <div v-else
-      v-html="item.Content"
-      class="side-content side-content-div"
-      :class="item.HtmlID"
-    />
-  </template>
-</div>
 </template>
 
 <script>
@@ -39,7 +41,10 @@ export default {
     Search,
   },
   props: {
-    item: Object,
+    item: {
+      type: Object,
+      default: () => ({}),
+    },
   },
 };
 </script>

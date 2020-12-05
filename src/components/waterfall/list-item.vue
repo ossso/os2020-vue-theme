@@ -1,14 +1,14 @@
 <template>
-<router-link :to="routeInfo" :title="article.Title" class="waterfall-list-item">
-  <div class="article-cover" v-if="article.Thumb">
-    <img :src="article.Thumb" :alt="article.Title" />
-  </div>
-  <div class="article-multi">
-    <h2 class="title">{{article.Title}}</h2>
-    <div class="article-intro" v-html="article.Intro"></div>
-    <article-info :article="article" />
-  </div>
-</router-link>
+  <router-link :to="routeInfo" :title="article.Title" class="waterfall-list-item">
+    <div v-if="article.Thumb" class="article-cover">
+      <img :src="article.Thumb" :alt="article.Title">
+    </div>
+    <div class="article-multi">
+      <h2 class="title">{{ article.Title }}</h2>
+      <div class="article-intro" v-html="article.Intro" />
+      <article-info :article="article" />
+    </div>
+  </router-link>
 </template>
 
 <script>
@@ -20,11 +20,14 @@ import ArticleInfo from '../article/info.vue';
 
 export default {
   name: 'WaterfallListItem',
-  props: {
-    article: Object,
-  },
   components: {
     ArticleInfo,
+  },
+  props: {
+    article: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   computed: {
     routeInfo() {

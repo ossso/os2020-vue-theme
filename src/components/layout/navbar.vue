@@ -1,40 +1,41 @@
 <template>
-<nav class="layout-navbar">
-  <ul class="nav-menu">
-    <li
-      v-for="(item, index) in list"
-      :key="index"
-      class="nav-item"
-      @mouseenter="showMenuIndex = index"
-      @mouseleave="showMenuIndex = -1"
-    >
-      <a
-        :href="item.url"
-        class="nav-item-link"
-        @click="toNavItem(item)"
-      >{{item.name}}</a>
-      <template v-if="item.children">
-        <transition name="nav-child-menu">
-          <ul
-            class="nav-child-menu"
-            v-show="showMenuIndex === index">
-            <li
-              v-for="(childItem, childIndex) in item.children"
-              :key="childIndex"
-              class="nav-child-item"
+  <nav class="layout-navbar">
+    <ul class="nav-menu">
+      <li
+        v-for="(item, index) in list"
+        :key="index"
+        class="nav-item"
+        @mouseenter="showMenuIndex = index"
+        @mouseleave="showMenuIndex = -1"
+      >
+        <a
+          :href="item.url"
+          class="nav-item-link"
+          @click="toNavItem(item)"
+        >{{ item.name }}</a>
+        <template v-if="item.children">
+          <transition name="nav-child-menu">
+            <ul
+              v-show="showMenuIndex === index"
+              class="nav-child-menu"
             >
-              <a
-                :href="childItem.url"
-                class="nav-child-item-link"
-                @click="toNavItem(childItem)"
-              >{{childItem.name}}</a>
-            </li>
-          </ul>
-        </transition>
-      </template>
-    </li>
-  </ul>
-</nav>
+              <li
+                v-for="(childItem, childIndex) in item.children"
+                :key="childIndex"
+                class="nav-child-item"
+              >
+                <a
+                  :href="childItem.url"
+                  class="nav-child-item-link"
+                  @click="toNavItem(childItem)"
+                >{{ childItem.name }}</a>
+              </li>
+            </ul>
+          </transition>
+        </template>
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <script>

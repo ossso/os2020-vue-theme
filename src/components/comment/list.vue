@@ -1,17 +1,17 @@
 <template>
-<div class="comment-list">
-  <div class="mode-head">
-    <h3 class="comment-title">参与评论</h3>
+  <div class="comment-list">
+    <div class="mode-head">
+      <h3 class="comment-title">参与评论</h3>
+    </div>
+    <comment-post />
+    <div class="list-container">
+      <comment-item
+        v-for="(item, index) in list"
+        :key="index"
+        :item="item"
+      />
+    </div>
   </div>
-  <comment-post />
-  <div class="list-container">
-    <comment-item
-      v-for="(item, index) in list"
-      :key="index"
-      :item="item"
-    />
-  </div>
-</div>
 </template>
 
 <script>
@@ -32,7 +32,10 @@ export default {
     CommentItem,
   },
   props: {
-    postId: [String, Number],
+    postId: {
+      type: [String, Number],
+      default: '',
+    },
   },
   computed: {
     ...mapState({

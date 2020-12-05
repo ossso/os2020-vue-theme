@@ -48,6 +48,9 @@ const install = (Vue) => {
   }
   Object.defineProperty(Vue.prototype, '$title', {
     set: setTitle,
+    get() {
+      return this.$store.page.title;
+    },
   });
 
   /**
