@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import {
   Icon,
+  Spin,
 } from 'ant-design-vue';
 import App from './App.vue';
 import router from './router';
@@ -10,6 +11,7 @@ import plugin from './plugin';
 Vue.config.productionTip = false;
 Vue.use(plugin);
 Vue.use(Icon);
+Vue.use(Spin);
 
 new Vue({
   router,

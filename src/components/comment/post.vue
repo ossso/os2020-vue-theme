@@ -1,30 +1,35 @@
 <template>
   <div class="comment-post">
-    <form action="#" onsubmit="return false;" @submit.stop="">
-      <div class="comment-user-group">
-        <label class="user-info-item">
-          <span class="label-name">昵称</span>
-          <input v-model="commentUser.name" type="text" class="user-info-input" placeholder="请输入您的名字">
-        </label>
-        <label class="user-info-item">
-          <span class="label-name">邮箱</span>
-          <input v-model="commentUser.email" type="text" class="user-info-input" placeholder="请输入您的邮箱">
-        </label>
-        <label class="user-info-item">
-          <span class="label-name">主页</span>
-          <input v-model="commentUser.homepage" type="text" class="user-info-input" placeholder="请输入您的主页">
-        </label>
-      </div>
-      <div class="comment-form-content">
-        <textarea v-model="form.Content" class="comment-form-textarea" name="Content" placeholder="请输入您评论的正文" />
-        <span v-show="form.Content.length > 0 && form.Content.length <= 1000" class="input-count">您已输入{{ form.Content.length }}字</span>
-        <span v-show="form.Content.length > 1000" class="input-count">您输入内容已经超过1000字，无法继续提交</span>
-      </div>
-      <div class="comment-post-foot">
-        <div class="comment-vaildate-image" />
-        <button class="submit-btn">提交评论</button>
-      </div>
-    </form>
+    <a-spin
+      :spinning="loading"
+      tip="Loading..."
+    >
+      <form action="#" onsubmit="return false;" @submit.stop="">
+        <div class="comment-user-group">
+          <label class="user-info-item">
+            <span class="label-name">昵称</span>
+            <input v-model="commentUser.Name" type="text" class="user-info-input" placeholder="请输入您的名字">
+          </label>
+          <label class="user-info-item">
+            <span class="label-name">邮箱</span>
+            <input v-model="commentUser.Email" type="text" class="user-info-input" placeholder="请输入您的邮箱">
+          </label>
+          <label class="user-info-item">
+            <span class="label-name">主页</span>
+            <input v-model="commentUser.HomePage" type="text" class="user-info-input" placeholder="请输入您的主页">
+          </label>
+        </div>
+        <div class="comment-form-content">
+          <textarea v-model="form.Content" class="comment-form-textarea" name="Content" placeholder="◎欢迎参与讨论，请在这里发表您的看法、交流您的观点。" />
+          <span v-show="form.Content.length > 0 && form.Content.length <= 1000" class="input-count">您已输入{{ form.Content.length }}字</span>
+          <span v-show="form.Content.length > 1000" class="input-count">您输入内容已经超过1000字，无法继续提交</span>
+        </div>
+        <div class="comment-post-foot">
+          <div class="comment-vaildate-image" />
+          <button class="submit-btn" @click="onSubmit">发表评论</button>
+        </div>
+      </form>
+    </a-spin>
   </div>
 </template>
 
@@ -32,23 +37,84 @@
 /**
  * 评论编辑框
  */
+
+import Schema from 'async-validator';
+
 export default {
   name: 'CommentPost',
   data() {
     return {
+      loading: false,
       form: {
         Content: '',
       },
       commentUser: {
-        name: '访客',
-        email: '',
-        homepage: '',
+        Name: '访客',
+        Email: '',
+        HomePage: '',
       },
     };
   },
+  mounted() {
+    this.init();
+  },
   methods: {
-    onSubmit() {},
-    submitForm() {},
+    init() {
+      this.validator = new Schema({
+        Name: {
+          required: true,
+          validator: (rule, value) => {
+            const val = value.trim();
+            if (val.length === 0) {
+              return new Error('昵称不能为空');
+            }
+            return true;
+          },
+        },
+        Email: {
+          required: true,
+          validator: (rule, value) => {
+            const val = value.trim();
+            if (val.length === 0) {
+              return new Error('邮箱不能为空');
+            }
+            return true;
+          },
+        },
+        Content: {
+          required: true,
+          validator: (rule, value) => {
+            const val = value.trim();
+            if (val.length === 0) {
+              return new Error('正文不能为空');
+            }
+            return true;
+          },
+        },
+      });
+    },
+    onSubmit() {
+      const formData = {
+        ...this.commentUser,
+        ...this.form,
+      };
+      this.validator.validate(formData).then(() => {
+        this.submitForm(formData);
+      }).catch(({ errors }) => {
+        for (let i = 0; i < errors.length; i += 1) {
+          const item = errors[i];
+          setTimeout(() => {
+            this.$message.error(item.message);
+          }, i);
+        }
+      });
+    },
+    submitForm(formData) {
+      this.loading = true;
+      this.$store.dispatch('comment/post', formData).finally(() => {
+        this.loading = false;
+      });
+    },
   },
 };
 </script>
@@ -56,6 +122,7 @@ export default {
 <style lang="scss" scoped>
 .comment-post {
   margin-bottom: 24px;
+
   .comment-form-content {
     position: relative;
     width: 100%;
@@ -72,6 +139,7 @@ export default {
       color: #aaa;
     }
   }
+
   .comment-form-textarea {
     width: 100%;
     height: 100%;
@@ -102,6 +170,7 @@ export default {
       background: #3a6ea5;
       letter-spacing: 2px;
       cursor: pointer;
+
       &:active {
         opacity: .95;
       }
@@ -124,16 +193,18 @@ export default {
     justify-content: flex-start;
     position: relative;
     margin-right: 10px;
+
     &:last-child {
       margin-right: 0;
     }
 
     .label-name {
       position: absolute;
-      top: 0;
+      top: 50%;
       left: 10px;
-      height: 36px;
-      line-height: 36px;
+      height: 34px;
+      margin-top: -17px;
+      line-height: 34px;
       font-size: 14px;
       color: #666;
     }
@@ -141,8 +212,8 @@ export default {
     .user-info-input {
       width: 100%;
       height: 36px;
-      padding: 4px 10px 4px 50px;
-      line-height: 24px;
+      padding: 0 10px 0 44px;
+      line-height: 36px;
       font-size: 14px;
       color: #333;
       border: 1px solid #eee;

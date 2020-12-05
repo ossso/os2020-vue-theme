@@ -43,6 +43,9 @@ export default {
       const pageList = pagenow > 1 ? state.list : [];
       state.list = pageList.concat(list);
     },
+    addList(state, item) {
+      state.list.push(item);
+    },
   },
   actions: {
     /**
@@ -65,6 +68,28 @@ export default {
           list: res,
           pagenow: page,
         });
+      });
+    },
+    /**
+     * 发布评论
+     */
+    async post({
+      commit,
+      state,
+    }, formData) {
+      console.log(formData);
+      await api({
+        method: 'post',
+        query: {
+          mod: 'comment',
+          act: 'post',
+          postid: state.postId,
+          with_relations: 'Author',
+        },
+        body: formData,
+      }).then((res) => {
+        console.log(res);
+        console.log(commit);
       });
     },
   },
