@@ -51,7 +51,7 @@ export default {
 
 <style lang="scss" scoped>
 .side-item {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   padding: 15px 25px;
   background: #fff;
 

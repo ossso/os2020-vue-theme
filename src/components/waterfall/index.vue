@@ -55,8 +55,7 @@ export default {
         this.lane = lane;
       } else {
         for (let i = 0; i < lane.length; i += 1) {
-          const item = lane[i];
-          this.lane[i] = this.lane[i].concat(item);
+          this.lane[i] = this.lane[i].push(...lane[i]);
         }
       }
     },

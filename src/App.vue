@@ -53,8 +53,8 @@ export default {
      * 初始化路由
      */
     initRoute() {
-      if (!window.location.search) return this;
-      if (window.$os2020.routerType === 'rewrite') return this;
+      if (!window.location.search) return;
+      if (window.$os2020.routerType === 'rewrite') return;
       const query = {};
       window.location.search.split('?')[1].split('&').forEach((i) => {
         const [key, val] = i.split('=');
@@ -67,7 +67,6 @@ export default {
           query,
         });
       }
-      return this;
     },
   },
 };

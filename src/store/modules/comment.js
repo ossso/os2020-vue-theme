@@ -45,8 +45,10 @@ export default {
       list = [],
       pagenow = 1,
     }) {
-      const pageList = pagenow > 1 ? state.list : [];
-      state.list = pageList.concat(list);
+      if (pagenow === 1) {
+        state.list = [];
+      }
+      state.list.push(...list);
     },
     addList(state, item) {
       state.list.push(item);
