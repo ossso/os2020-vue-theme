@@ -84,6 +84,7 @@ export default {
       }).then((res) => {
         this.info = res.post;
         this.info.Content = prismFormat(this.$htmlEscape(res.post.Content));
+        this.$store.commit('comment/setPostCmtKey', res.post.CommentPostKey);
         this.$title = res.post.Title;
         this.$nextTick(() => {
           this.queryCopyBtn();

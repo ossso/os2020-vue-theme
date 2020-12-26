@@ -6,6 +6,7 @@ import api from '@/api';
 
 const defaultState = {
   postId: null,
+  postCmtKey: null,
   replyId: null,
   list: [],
   page: {
@@ -24,6 +25,7 @@ export default {
       postId = null,
     }) {
       state.postId = postId;
+      state.postCmtKey = null;
       state.replyId = null;
       state.list = [];
       state.page = {
@@ -32,6 +34,9 @@ export default {
     },
     setPostId(state, postId) {
       state.postId = postId;
+    },
+    setPostCmtKey(state, postCmtKey) {
+      state.postCmtKey = postCmtKey;
     },
     setReplyId(state, replyId) {
       state.replyId = replyId;
@@ -75,6 +80,7 @@ export default {
      */
     async post({
       commit,
+      dispatch,
       state,
     }, formData) {
       console.log(formData);
@@ -84,12 +90,14 @@ export default {
           mod: 'comment',
           act: 'post',
           postid: state.postId,
+          key: state.postCmtKey,
           with_relations: 'Author',
         },
         body: formData,
       }).then((res) => {
         console.log(res);
         console.log(commit);
+        dispatch('list');
       });
     },
   },
