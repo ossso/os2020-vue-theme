@@ -1,16 +1,11 @@
 const proxyPreList = ['api.php', 'zb_system', 'zb_users'];
 
-const proxy = {
-  // '/': {
-  //   target: 'http://10.0.0.180/',
-  //   changeOrigin: true,
-  // },
-};
+const proxy = {};
 
 proxyPreList.forEach((item) => {
   const key = `/${item}`;
   proxy[key] = {
-    target: 'http://10.0.0.123:39080/',
+    target: process.env.ZBLOG_HOST || '/',
     changeOrigin: true,
   };
 });
