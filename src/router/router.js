@@ -11,13 +11,20 @@ const routes = [
       title: '首页',
       sidebar: true,
     },
-    component: () => import('../views/home.vue'),
-  },
-  {
+    component: () => import('../views/list.vue'),
+  }, {
+    path: '/cate/:cateId',
+    name: 'Category',
+    meta: {
+      title: '分类',
+      sidebar: true,
+    },
+    component: () => import('../views/list.vue'),
+  }, {
     path: '/article/:id',
     name: 'Article',
     meta: {
-      title: '首页',
+      title: '文章详情页',
       sidebar: true,
     },
     component: () => import('../views/article.vue'),

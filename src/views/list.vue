@@ -16,7 +16,7 @@ import Waterfall from '@/components/waterfall/index.vue';
 import ArticleMulti from '@/components/article/multi.vue';
 
 export default {
-  name: 'Home',
+  name: 'ArticleList',
   components: {
     Waterfall,
     ArticleMulti,
