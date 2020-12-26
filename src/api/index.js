@@ -24,6 +24,6 @@ export default (options) => {
   if (headers) {
     option.headers = headers;
   }
-  const url = `${host}api.php`;
+  const url = `${host}zb_system/api.php`;
   return request(method || type, url, option, query, body);
 };
