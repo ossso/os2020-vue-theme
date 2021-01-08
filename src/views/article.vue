@@ -24,7 +24,7 @@
     </article>
 
     <comment-list
-      v-if="id"
+      v-if="showComment"
       :post-id="id"
     />
   </div>
@@ -70,6 +70,12 @@ export default {
         return this.$dateFormat.format('yyyy/mm/dd hh:ii', this.info.PostTime * 1000);
       }
       return '';
+    },
+    showComment() {
+      if (this.info && this.info.IsLock === false && this.zbp.comment_turnoff) {
+        return true;
+      }
+      return false;
     },
   },
   mounted() {

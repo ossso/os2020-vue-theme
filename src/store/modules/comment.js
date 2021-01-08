@@ -12,6 +12,7 @@ const defaultState = {
   page: {
     pagenow: 1,
   },
+  comment_reverse_order: false,
 };
 
 export default {
@@ -50,8 +51,15 @@ export default {
       }
       state.list.push(...list);
     },
-    addList(state, item) {
-      state.list.push(item);
+    setReverse(state, status) {
+      state.comment_reverse_order = Boolean(status);
+    },
+    appendToList(state, item) {
+      if (state.comment_reverse_order) {
+        state.list.unshift(item);
+      } else {
+        state.list.push(item);
+      }
     },
   },
   actions: {
@@ -82,10 +90,8 @@ export default {
      */
     async post({
       commit,
-      dispatch,
       state,
     }, formData) {
-      console.log(formData);
       await api({
         method: 'post',
         query: {
@@ -97,9 +103,7 @@ export default {
         },
         body: formData,
       }).then((res) => {
-        console.log(res);
-        console.log(commit);
-        dispatch('list');
+        commit('appendToList', res.comment);
       });
     },
   },

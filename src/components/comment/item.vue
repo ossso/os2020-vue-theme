@@ -97,6 +97,7 @@ export default {
       color: #369;
       opacity: 0;
       transition: all 200ms ease-in-out;
+      cursor: pointer;
     }
   }
 

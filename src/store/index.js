@@ -58,6 +58,7 @@ const store = new Vuex.Store({
       }).then((res) => {
         commit('setZBP', res.zbp);
         commit('setLogin', res.is_logged_in);
+        commit('comment/setReverse', res.zbp.comment_reverse_order);
         if (res.is_logged_in) {
           commit('user/setInfo', res.current_member);
         }

@@ -93,6 +93,9 @@ export default {
         },
       });
     },
+    /**
+     * 触发提交 - 提交前的验证
+     */
     onSubmit() {
       const formData = {
         ...this.commentUser,
@@ -109,9 +112,14 @@ export default {
         }
       });
     },
+    /**
+     * 提交表单
+     */
     submitForm(formData) {
       this.loading = true;
-      this.$store.dispatch('comment/post', formData).finally(() => {
+      this.$store.dispatch('comment/post', formData).then(() => {
+        this.form.Content = '';
+      }).finally(() => {
         this.loading = false;
       });
     },
