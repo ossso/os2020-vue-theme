@@ -1,16 +1,32 @@
 <template>
   <div class="article-container">
-    <article v-if="info" class="article-box">
+    <article
+      v-if="info"
+      class="article-box"
+    >
       <h1>{{ info.Title }}</h1>
-      <div ref="content" class="content" v-html="info.Content" />
+      <div
+        ref="content"
+        class="content"
+        v-html="info.Content"
+      />
       <div class="article-info">
-        <span class="info-item author-info">作者：{{ info.Author.StaticName }}</span>
-        <span class="info-item cate-info">分类：{{ info.Category.Name }}</span>
-        <span class="info-item post-date-info">时间：{{ date }}</span>
+        <span
+          class="info-item author-info"
+        >作者：{{ info.Author.StaticName }}</span>
+        <span
+          class="info-item cate-info"
+        >分类：{{ info.Category.Name }}</span>
+        <span
+          class="info-item post-date-info"
+        >时间：{{ date }}</span>
       </div>
     </article>
 
-    <comment-list v-if="id" :post-id="id" />
+    <comment-list
+      v-if="id"
+      :post-id="id"
+    />
   </div>
 </template>
 
@@ -57,22 +73,31 @@ export default {
     },
   },
   mounted() {
-    this.$title = '加载中...';
-    if (this.$route.params.id) {
-      this.id = this.$route.params.id;
-    } else if (this.$route.query.id) {
-      this.id = this.$route.query.id;
-    }
-    if (this.id > 0) {
-      this.loadInfo();
-    } else {
-      this.$router.replace({
-        name: '404',
-      });
-    }
+    this.initInfo();
   },
   methods: {
-    loadInfo() {
+    /**
+     * 初始化信息
+     */
+    initInfo() {
+      this.$title = '加载中...';
+      if (this.$route.params.id) {
+        this.id = this.$route.params.id;
+      } else if (this.$route.query.id) {
+        this.id = this.$route.query.id;
+      }
+      if (this.id > 0) {
+        this.loadArticleInfo();
+      } else {
+        this.$router.replace({
+          name: '404',
+        });
+      }
+    },
+    /**
+     * 加载文章信息
+     */
+    loadArticleInfo() {
       NProgress.start();
       this.loading = true;
       this.$api({
@@ -120,6 +145,15 @@ export default {
         this.$message.success('复制成功');
       });
     },
+  },
+  /**
+   * 路由守卫
+   */
+  beforeRouteUpdate(to, from, next) {
+    setTimeout(() => {
+      this.initInfo();
+    }, 100);
+    next();
   },
 };
 </script>

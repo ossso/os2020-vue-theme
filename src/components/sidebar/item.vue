@@ -31,6 +31,7 @@
  * 侧栏单条
  */
 
+import linkHandle from '@/utils/a-link-handle';
 import Calendar from './calendar.vue';
 import Search from './search.vue';
 
@@ -45,6 +46,24 @@ export default {
       type: Object,
       default: () => ({}),
     },
+  },
+  mounted() {
+    this.cache.linkHandle = (e) => {
+      linkHandle.call(this, e);
+    };
+    this.cache.allATag = this.$el.querySelectorAll('a');
+    for (let i = 0; i < this.cache.allATag.length; i += 1) {
+      const item = this.cache.allATag[i];
+      item.addEventListener('click', this.cache.linkHandle);
+    }
+  },
+  destroyed() {
+    if (this.cache.allATag) {
+      for (let i = 0; i < this.cache.allATag.length; i += 1) {
+        const item = this.cache.allATag[i];
+        item.removeEventListener('click', this.cache.linkHandle);
+      }
+    }
   },
 };
 </script>

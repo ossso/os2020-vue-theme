@@ -1,5 +1,6 @@
 <template>
   <div class="comment-item" :class="{ 'comment-child-item': child }">
+    <a :name="'cmt' + item.ID" />
     <span class="comment-author-avatar">
       <img :src="item.Author.Avatar" :alt="item.Author.StaticName">
     </span>

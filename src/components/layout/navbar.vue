@@ -11,7 +11,7 @@
         <a
           :href="item.url"
           class="nav-item-link"
-          @click="toNavItem(item)"
+          @click="toNavItem"
         >{{ item.name }}</a>
         <template v-if="item.children">
           <transition name="nav-child-menu">
@@ -42,6 +42,9 @@
 /**
  * Layout NavBar
  */
+
+import linkHandle from '@/utils/a-link-handle';
+
 export default {
   name: 'NavBar',
   data() {
@@ -110,9 +113,12 @@ export default {
     },
     /**
      * 前往单条页面
+     *
+     * 针对本主题需要保留通用性，因此做了这个处理方法
+     * 自建单页系统时，不建议这么使用
      */
-    toNavItem(item) {
-      console.log(item);
+    toNavItem(e) {
+      linkHandle.call(this, e);
     },
   },
 };

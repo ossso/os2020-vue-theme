@@ -11,7 +11,7 @@ const routes = [
       title: '首页',
       sidebar: true,
     },
-    component: () => import('../views/list.vue'),
+    component: () => import('@/views/list.vue'),
   }, {
     path: '/cate/:cateId',
     name: 'Category',
@@ -19,21 +19,29 @@ const routes = [
       title: '分类',
       sidebar: true,
     },
-    component: () => import('../views/list.vue'),
+    component: () => import('@/views/list.vue'),
   }, {
     path: '/article/:id',
     name: 'Article',
     meta: {
-      title: '文章详情页',
+      title: '文章',
       sidebar: true,
     },
-    component: () => import('../views/article.vue'),
+    component: () => import('@/views/article.vue'),
+  }, {
+    path: '/page/:id',
+    name: 'Page',
+    meta: {
+      title: '单页',
+      sidebar: true,
+    },
+    component: () => import('@/views/article.vue'),
   },
 
   {
     path: '/404',
     name: '404',
-    component: () => import('../views/404.vue'),
+    component: () => import('@/views/404.vue'),
   },
 
   {

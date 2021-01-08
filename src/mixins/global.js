@@ -10,4 +10,7 @@ export default {
       userinfo: (state) => state.user.info,
     }),
   },
+  created() {
+    this.cache = {};
+  },
 };

@@ -70,10 +70,13 @@ const install = (Vue) => {
       switch (type) {
         case 'Article':
           if (configItem.param === 'alias') {
-            query.alias = info.Alias;
+            query.alias = info.Alias || info.alias;
           } else {
-            query.id = info.ID;
+            query.id = info.ID || info.id;
           }
+          break;
+        case 'Category':
+          query.cate = info.cate || info.id;
           break;
         default:
         case 'Home':
@@ -84,7 +87,7 @@ const install = (Vue) => {
       const params = {};
       route.params = params;
     }
-    console.log(route);
+    // console.log(route);
     return route;
   }
   Vue.prototype.$createRoute = createRoute;

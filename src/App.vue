@@ -55,15 +55,22 @@ export default {
     initRoute() {
       if (!window.location.search) return;
       if (window.$os2020.routerType === 'rewrite') return;
+      const params = new URLSearchParams(window.location.search.split('?')[1]);
       const query = {};
-      window.location.search.split('?')[1].split('&').forEach((i) => {
-        const [key, val] = i.split('=');
-        query[key] = val;
-      });
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [k, v] of params) {
+        query[k] = v;
+      }
       console.log(query);
       if (query.id) {
         this.$router.replace({
           name: 'Article',
+          query,
+        });
+      }
+      if (query.cate) {
+        this.$router.replace({
+          name: 'Category',
           query,
         });
       }
