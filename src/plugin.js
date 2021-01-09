@@ -62,41 +62,30 @@ const install = (Vue) => {
     const route = {
       name: type,
     };
-    if (window.$os2020 && window.$os2020.routerType === 'active') {
-      const configItem = window.$os2020.routes[type];
-      const query = {
-        type,
-      };
-      switch (type) {
-        case 'Article':
-          if (configItem.param === 'alias') {
-            query.alias = info.Alias || info.alias;
-          } else {
-            query.id = info.ID || info.id;
-          }
-          break;
-        case 'Category':
-          query.cate = info.cate || info.id;
-          break;
-        case 'Date':
-          query.date = info.date;
-          break;
-        case 'Author':
-          query.auth = info.auth;
-          break;
-        case 'Tags':
-          query.tags = info.tags;
-          break;
-        default:
-        case 'Home':
-          break;
-      }
-      route.query = query;
-    } else {
-      const params = {};
-      route.params = params;
+    const query = {
+      type,
+    };
+    switch (type) {
+      case 'Article':
+        query.id = info.ID || info.id;
+        break;
+      case 'Category':
+        query.cate = info.cate || info.id;
+        break;
+      case 'Date':
+        query.date = info.date;
+        break;
+      case 'Author':
+        query.auth = info.auth || info.id;
+        break;
+      case 'Tags':
+        query.tags = info.tags || info.id;
+        break;
+      default:
+      case 'Home':
+        break;
     }
-    // console.log(route);
+    route.query = query;
     return route;
   }
   Vue.prototype.$createRoute = createRoute;

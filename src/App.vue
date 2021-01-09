@@ -54,7 +54,6 @@ export default {
      */
     initRoute() {
       if (!window.location.search) return;
-      if (window.$os2020.routerType === 'rewrite') return;
       const params = new URLSearchParams(window.location.search.split('?')[1]);
       const query = {};
       // eslint-disable-next-line no-restricted-syntax

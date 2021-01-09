@@ -12,42 +12,42 @@ const routes = [
     },
     component: () => import('@/views/list.vue'),
   }, {
-    path: '/cate/:cateId',
+    path: '/cate',
     name: 'Category',
     meta: {
       sidebar: true,
     },
     component: () => import('@/views/list.vue'),
   }, {
-    path: '/date/:date',
+    path: '/',
     name: 'Date',
     meta: {
       sidebar: true,
     },
     component: () => import('@/views/list.vue'),
   }, {
-    path: '/author/:authId',
+    path: '/',
     name: 'Author',
     meta: {
       sidebar: true,
     },
     component: () => import('@/views/list.vue'),
   }, {
-    path: '/tags/:tagId',
+    path: '/',
     name: 'Tags',
     meta: {
       sidebar: true,
     },
     component: () => import('@/views/list.vue'),
   }, {
-    path: '/article/:id',
+    path: '/',
     name: 'Article',
     meta: {
       sidebar: true,
     },
     component: () => import('@/views/article.vue'),
   }, {
-    path: '/page/:id',
+    path: '/',
     name: 'Page',
     meta: {
       sidebar: true,
@@ -66,16 +66,6 @@ const routes = [
     redirect: '/404',
   },
 ];
-
-if (window.$os2020) {
-  Object.keys(window.$os2020.routes).forEach((i) => {
-    const item = routes.find((r) => r.name === i);
-    if (item) {
-      const configItem = window.$os2020.routes[i];
-      item.path = configItem.path || '/';
-    }
-  });
-}
 
 const router = new VueRouter({
   mode: window.$os2020 ? window.$os2020.routerMode : 'history',
