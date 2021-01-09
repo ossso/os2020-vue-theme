@@ -74,6 +74,24 @@ export default {
           query,
         });
       }
+      if (query.date) {
+        this.$router.replace({
+          name: 'Date',
+          query,
+        });
+      }
+      if (query.auth) {
+        this.$router.replace({
+          name: 'Author',
+          query,
+        });
+      }
+      if (query.tags) {
+        this.$router.replace({
+          name: 'Tags',
+          query,
+        });
+      }
     },
   },
 };

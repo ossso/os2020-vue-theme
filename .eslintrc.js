@@ -34,7 +34,7 @@ module.exports = {
     'no-console': 'off',
     'no-debugger': 'off',
     'no-param-reassign': 'off',
-    'max-len': 'off',
+    'max-len': ['warn', 120],
     'prefer-destructuring': ['error',
       {
         VariableDeclarator: {

@@ -3,6 +3,7 @@
  */
 
 function linkHandle(e) {
+  // e.preventDefault();
   const {
     href,
   } = e.target;
@@ -15,6 +16,8 @@ function linkHandle(e) {
   if (href.indexOf(this.zbp.host) !== 0 // 不包含zbp的host
       && href.indexOf(window.location.origin) !== 0 // 不包含当前的host
       && toUrl.protocol // 有访问协议
+      && toUrl.pathname.indexOf('/zb_system/') !== 0
+      && toUrl.pathname.indexOf('/zb_user/') !== 0
   ) {
     return;
   }
@@ -30,6 +33,9 @@ function linkHandle(e) {
   const toFullPath = `${toUrl.pathname}${toUrl.search}`;
   if (this.$route.path === toUrl.pathname) {
     if (toUrl.search.indexOf('?') === -1) {
+      this.$router.push({
+        name: 'Home',
+      });
       return;
     }
     const params = new URLSearchParams(toUrl.search.split('?')[1]);
@@ -55,7 +61,7 @@ function linkHandle(e) {
     }
   } else
   if (this.$route.fullPath !== toFullPath) {
-    this.$router.push(toUrl)
+    this.$router.push(toFullPath)
       .then()
       .catch(() => {
         window.location.href = toUrl.toString();

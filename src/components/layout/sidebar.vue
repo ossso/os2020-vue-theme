@@ -13,6 +13,9 @@
  * Sidebar
  */
 
+import {
+  mapState,
+} from 'vuex';
 import SideItem from '../sidebar/item.vue';
 
 export default {
@@ -25,7 +28,17 @@ export default {
       modules: [],
     };
   },
+  computed: {
+    ...mapState({
+      refreshSidebar: (state) => state.refreshSidebar,
+    }),
+  },
   mounted() {
+    this.cache.sideWatcher = this.$watch('refreshSidebar', (n) => {
+      if (n) {
+        this.loadSide();
+      }
+    });
     this.loadSide();
   },
   methods: {
@@ -47,6 +60,8 @@ export default {
           item.Content = this.$htmlEscape(item.Content);
           return item;
         });
+      }).finally(() => {
+        this.$store.commit('setRefreshSidebar', false);
       });
     },
   },

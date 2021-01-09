@@ -20,6 +20,7 @@ const store = new Vuex.Store({
     page: {
       title: {},
     },
+    refreshSidebar: false,
   },
   mutations: {
     /**
@@ -39,6 +40,12 @@ const store = new Vuex.Store({
      */
     setPageTitle(state, title) {
       state.page.title = title;
+    },
+    /**
+     * 刷新侧边栏
+     */
+    setRefreshSidebar(state, status) {
+      state.refreshSidebar = Boolean(status);
     },
   },
   actions: {
@@ -76,15 +83,23 @@ const store = new Vuex.Store({
       commit,
       state,
     }, title) {
-      const {
-        zbp,
-      } = state;
-      if (zbp.name) {
-        titleElem.innerHTML = `${title} - ${zbp.name}`;
+      if (typeof title === 'object') {
+        titleElem.innerHTML = `${title.title}`;
+        if (title.suffix) {
+          titleElem.innerHTML += ` - ${title.suffix}`;
+        }
+        commit('setPageTitle', title.title);
       } else {
-        titleElem.innerHTML = `${title}`;
+        const {
+          zbp,
+        } = state;
+        if (zbp.name) {
+          titleElem.innerHTML = `${title} - ${zbp.name}`;
+        } else {
+          titleElem.innerHTML = `${title}`;
+        }
+        commit('setPageTitle', title);
       }
-      commit('setPageTitle', title);
     },
   },
   modules: {

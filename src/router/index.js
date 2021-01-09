@@ -15,10 +15,7 @@ router.beforeEach(async (to, from, next) => {
   return true;
 });
 
-router.afterEach((to) => {
-  if (to.meta && to.meta.title) {
-    router.app.$title = to.meta.title;
-  }
+router.afterEach(() => {
   window.document.body.scrollTop = 0;
   window.document.documentElement.scrollTop = 0;
   NProgress.done();

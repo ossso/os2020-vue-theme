@@ -8,7 +8,6 @@ const routes = [
     path: '/',
     name: 'Home',
     meta: {
-      title: '首页',
       sidebar: true,
     },
     component: () => import('@/views/list.vue'),
@@ -16,7 +15,27 @@ const routes = [
     path: '/cate/:cateId',
     name: 'Category',
     meta: {
-      title: '分类',
+      sidebar: true,
+    },
+    component: () => import('@/views/list.vue'),
+  }, {
+    path: '/date/:date',
+    name: 'Date',
+    meta: {
+      sidebar: true,
+    },
+    component: () => import('@/views/list.vue'),
+  }, {
+    path: '/author/:authId',
+    name: 'Author',
+    meta: {
+      sidebar: true,
+    },
+    component: () => import('@/views/list.vue'),
+  }, {
+    path: '/tags/:tagId',
+    name: 'Tags',
+    meta: {
       sidebar: true,
     },
     component: () => import('@/views/list.vue'),
@@ -24,7 +43,6 @@ const routes = [
     path: '/article/:id',
     name: 'Article',
     meta: {
-      title: '文章',
       sidebar: true,
     },
     component: () => import('@/views/article.vue'),
@@ -32,7 +50,6 @@ const routes = [
     path: '/page/:id',
     name: 'Page',
     meta: {
-      title: '单页',
       sidebar: true,
     },
     component: () => import('@/views/article.vue'),

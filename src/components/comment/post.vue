@@ -4,29 +4,62 @@
       :spinning="loading"
       tip="Loading..."
     >
-      <form action="#" onsubmit="return false;" @submit.stop="">
+      <form
+        action="#"
+        onsubmit="return false;"
+        @submit.stop=""
+      >
         <div class="comment-user-group">
           <label class="user-info-item">
             <span class="label-name">昵称</span>
-            <input v-model="commentUser.Name" type="text" class="user-info-input" placeholder="请输入您的名字">
+            <input
+              v-model="commentUser.Name"
+              type="text"
+              class="user-info-input"
+              placeholder="请输入您的名字"
+            >
           </label>
           <label class="user-info-item">
             <span class="label-name">邮箱</span>
-            <input v-model="commentUser.Email" type="text" class="user-info-input" placeholder="请输入您的邮箱">
+            <input
+              v-model="commentUser.Email"
+              type="text"
+              class="user-info-input"
+              placeholder="请输入您的邮箱"
+            >
           </label>
           <label class="user-info-item">
             <span class="label-name">主页</span>
-            <input v-model="commentUser.HomePage" type="text" class="user-info-input" placeholder="请输入您的主页">
+            <input
+              v-model="commentUser.HomePage"
+              type="text"
+              class="user-info-input"
+              placeholder="请输入您的主页"
+            >
           </label>
         </div>
         <div class="comment-form-content">
-          <textarea v-model="form.Content" class="comment-form-textarea" name="Content" placeholder="◎欢迎参与讨论，请在这里发表您的看法、交流您的观点。" />
-          <span v-show="form.Content.length > 0 && form.Content.length <= 1000" class="input-count">您已输入{{ form.Content.length }}字</span>
-          <span v-show="form.Content.length > 1000" class="input-count">您输入内容已经超过1000字，无法继续提交</span>
+          <textarea
+            v-model="form.Content"
+            class="comment-form-textarea"
+            name="Content"
+            placeholder="◎欢迎参与讨论，请在这里发表您的看法、交流您的观点。"
+          />
+          <span
+            v-show="form.Content.length > 0 && form.Content.length <= 1000"
+            class="input-count"
+          >您已输入{{ form.Content.length }}字</span>
+          <span
+            v-show="form.Content.length > 1000"
+            class="input-count"
+          >您输入内容已经超过1000字，无法继续提交</span>
         </div>
         <div class="comment-post-foot">
           <div class="comment-vaildate-image" />
-          <button class="submit-btn" @click="onSubmit">发表评论</button>
+          <button
+            class="submit-btn"
+            @click="onSubmit"
+          >发表评论</button>
         </div>
       </form>
     </a-spin>

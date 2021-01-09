@@ -78,6 +78,15 @@ const install = (Vue) => {
         case 'Category':
           query.cate = info.cate || info.id;
           break;
+        case 'Date':
+          query.date = info.date;
+          break;
+        case 'Author':
+          query.auth = info.auth;
+          break;
+        case 'Tags':
+          query.tags = info.tags;
+          break;
         default:
         case 'Home':
           break;

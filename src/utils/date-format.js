@@ -24,19 +24,20 @@ class DateFormat {
    */
   auto(date = null) {
     if (!date) {
-      return this.date;
+      return new Date();
     }
-    let d = new Date();
+    if (date instanceof Date) {
+      return date;
+    }
     if (typeof date === 'string') {
-      d = this.parse(date);
-    } else if (typeof date === 'number' || !/^\d/.test(date)) {
-      d.setTime(date);
-    } else if (date.constructor.name === 'Date') {
-      d = date;
-    } else {
-      throw Error('请传入正确的Date对象');
+      return this.parse(date);
     }
-    return d;
+    if (typeof date === 'number' || !/^\d/.test(date)) {
+      const d = new Date();
+      d.setTime(date);
+      return d;
+    }
+    throw Error('请传入正确的Date对象');
   }
 
   /**
@@ -223,48 +224,55 @@ class DateFormat {
    */
   changeMonth(num, unnatural = 0, date = null) {
     const d = this.auto(date);
+    if (num === 0) {
+      return d;
+    }
     if (unnatural) {
       const dateNumber = num * unnatural;
       return this.changeDate(dateNumber, d);
     }
+    const currentYear = d.getFullYear();
     const currentMonth = d.getMonth() + 1;
     const currentDate = d.getDate();
+    const currentEndOfMonth = this.endOfMonth(currentYear, currentMonth, currentDate);
     const countMonth = currentMonth + parseInt(num, 10);
-    let yearNumber = d.getFullYear();
+    let yearNumber = currentYear + Math.ceil(countMonth / 12) - 1;
     let monthNumber = countMonth % 12;
     monthNumber = monthNumber === 0 ? 12 : monthNumber;
     let dateNumber = currentDate;
     if (num < 0) {
-      monthNumber += 12;
-      if (this.endOfMonth(yearNumber, monthNumber, dateNumber)) {
+      if (monthNumber < 1) {
+        monthNumber += 12;
+      }
+      if (currentEndOfMonth) {
         monthNumber += 1;
         dateNumber = 1;
       } else {
         dateNumber += 1;
       }
-      if (countMonth < 1) {
-        yearNumber += -1;
-      } else if (countMonth > 12) {
-        yearNumber += Math.floor(countMonth / 12);
+      if (this.endOfMonth(yearNumber, monthNumber, dateNumber)) {
+        monthNumber += 1;
+        dateNumber = 1;
       }
-    } else {
-      if (countMonth < 1) {
-        yearNumber += -1;
-      } else if (countMonth > 12) {
-        yearNumber += Math.floor(countMonth / 12);
+    } else if (currentDate === 1) {
+      monthNumber -= 1;
+      if (this.bigMonths.includes(monthNumber)) {
+        dateNumber = 30;
+      } else if (this.smallMonths.includes(monthNumber)) {
+        dateNumber = 31;
+      } else if (monthNumber === 2) {
+        dateNumber = this.leapYear(yearNumber, false) ? 29 : 28;
       }
-      if (currentDate === 1) {
-        monthNumber -= 1;
-        if (this.bigMonths.includes(monthNumber)) {
-          dateNumber = 30;
-        } else if (this.smallMonths.includes(monthNumber)) {
-          dateNumber = 31;
-        } else if (monthNumber === 2) {
-          dateNumber = this.leapYear(yearNumber, false) ? 29 : 28;
-        }
+    } else if (currentEndOfMonth) {
+      if (monthNumber === 2) {
+        dateNumber = this.leapYear(yearNumber, false) ? 29 : 28;
+      } else if (currentMonth === 2) {
+        dateNumber = 30;
       } else {
         dateNumber -= 1;
       }
+    } else {
+      dateNumber -= 1;
     }
     // 修正变更后的年月
     if (monthNumber < 1) {
@@ -274,23 +282,9 @@ class DateFormat {
       yearNumber += 1;
       monthNumber = 1;
     }
-    // 重复执行一次修正
-    if (num < 0) {
-      if (this.endOfMonth(yearNumber, monthNumber, dateNumber)) {
-        dateNumber = 1;
-      }
-    } else
-    if (dateNumber === 1) {
-      if (this.bigMonths.includes(monthNumber)) {
-        dateNumber = 30;
-      } else if (this.smallMonths.includes(monthNumber)) {
-        dateNumber = 31;
-      } else if (monthNumber === 2) {
-        dateNumber = this.leapYear(yearNumber, false) ? 29 : 28;
-      }
-    }
-    const computeDate = `${yearNumber}/${Math.abs(monthNumber)}/${dateNumber} ${this.format('hh:ii:ss', date)}`;
-    return this.auto(computeDate);
+    const computeDate = [[yearNumber, Math.abs(monthNumber), dateNumber].join('/')];
+    computeDate.push(this.format('hh:ii:ss', num > 0 ? d.getTime() - 1000 : d.getTime() + 1000));
+    return this.auto(computeDate.join(' '));
   }
 
   /**
@@ -315,12 +309,12 @@ const dateFormat = new DateFormat();
     params: [0],
   }, {
     name: 'changeMonth',
-    params: [0],
+    params: [0, 1],
   }];
   params.forEach((i) => {
     const key = typeof i === 'object' && i !== null ? i.name : i;
     if (!Date.prototype[key]) {
-      Date.prototype[key] = function(...args) {
+      Date.prototype[key] = function (...args) {
         const callArgs = i.params ? i.params.map((k) => args[k]) : [];
         return dateFormat[key](...callArgs, this);
       };
@@ -328,12 +322,13 @@ const dateFormat = new DateFormat();
   });
   if (!Date.prototype.endOfMonth) {
     Object.defineProperty(Date.prototype, 'endOfMonth', {
-      get: function() {
-        return dateFormat.endOfMonth(this.getFullYear(), this.getMonth() + 1, this.getDate());
+      get: function () {
+        return dateFormat.endOfMonth(this.getFullYear(), this.getMonth() + 1, this
+        .getDate());
       },
       enumerable: true,
     });
   }
 }());
 
-export default dateFormat;
+module.exports = dateFormat;

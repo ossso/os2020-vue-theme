@@ -45,13 +45,22 @@ export default {
     };
   },
   mounted() {
+    this.cache.watcher = this.$watch('$route', () => {
+      this.$store.commit('setRefreshSidebar', true);
+      this.initInfo();
+    });
     this.initInfo();
+  },
+  destroyed() {
+    this.cache.watcher();
   },
   methods: {
     /**
      * 初始化页面信息
      */
     initInfo() {
+      this.cache.titleHandle = null;
+      this.cache.pageTypeQuery = {};
       switch (this.$route.name) {
         case 'Category': {
           const cateId = (() => {
@@ -72,13 +81,68 @@ export default {
           this.cache.titleHandle = (data) => data.category.Name;
           break;
         }
+        case 'Date': {
+          const date = (() => {
+            if (this.$route.params.date) {
+              return this.$route.params.date;
+            }
+            return this.$route.query.date;
+          })();
+          this.cache.query = {
+            ...LIST_COMMON_QUERY,
+            date,
+          };
+          this.cache.titleHandle = () => {
+            if (date.indexOf('-') === date.lastIndexOf('-')) {
+              return `${date.replace('-', '年')}月`;
+            }
+            return this.$dateFormat.format('yyyy年mm月dd日', date);
+          };
+          break;
+        }
+        case 'Author': {
+          const authId = (() => {
+            if (this.$route.params.authId) {
+              return this.$route.params.authId;
+            }
+            return this.$route.query.auth || this.$route.query.id;
+          })();
+          this.cache.query = {
+            ...LIST_COMMON_QUERY,
+            auth_id: authId,
+          };
+          this.cache.pageTypeQuery = {
+            mod: 'member',
+            act: 'get',
+            id: authId,
+          };
+          this.cache.titleHandle = (data) => data.member.StaticName;
+          break;
+        }
+        case 'Tags': {
+          const tagId = (() => {
+            if (this.$route.params.tagId) {
+              return this.$route.params.tagId;
+            }
+            return this.$route.query.tags || this.$route.query.id;
+          })();
+          this.cache.query = {
+            ...LIST_COMMON_QUERY,
+            tag_id: tagId,
+          };
+          this.cache.pageTypeQuery = {
+            mod: 'tag',
+            act: 'get',
+            id: tagId,
+          };
+          this.cache.titleHandle = (data) => data.tag.Name;
+          break;
+        }
         default:
         case 'Home':
           this.cache.query = {
             ...LIST_COMMON_QUERY,
           };
-          this.cache.pageTypeQuery = {};
-          this.cache.titleHandle = () => this.zbp.name;
           break;
       }
       this.loadList(1);
@@ -122,24 +186,30 @@ export default {
      */
     getPageTitle() {
       if (!this.cache.pageTypeQuery.mod) {
-        this.$title = this.zbp.name;
+        if (this.cache.titleHandle) {
+          this.$title = this.cache.titleHandle();
+        } else if (this.zbp.name) {
+          this.$store.dispatch('setPageTitle', {
+            title: `${this.zbp.name} - ${this.zbp.subname}`,
+          });
+        } else {
+          const watcher = this.$watch('zbp', () => {
+            this.$store.dispatch('setPageTitle', {
+              title: `${this.zbp.name} - ${this.zbp.subname}`,
+            });
+            watcher();
+          });
+        }
         return;
       }
       this.$api({
         query: this.cache.pageTypeQuery,
       }).then((res) => {
-        this.$title = this.cache.titleHandle(res);
+        if (this.cache.titleHandle) {
+          this.$title = this.cache.titleHandle(res);
+        }
       });
     },
-  },
-  /**
-   * 路由守卫
-   */
-  beforeRouteUpdate(to, from, next) {
-    setTimeout(() => {
-      this.initInfo();
-    }, 100);
-    next();
   },
 };
 </script>
