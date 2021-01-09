@@ -72,7 +72,7 @@ export default {
       return '';
     },
     showComment() {
-      if (this.info && this.info.IsLock === false && this.zbp.comment_turnoff) {
+      if (this.info && this.info.IsLock === false && !this.zbp.comment_turnoff) {
         return true;
       }
       return false;
