@@ -1,5 +1,8 @@
 <template>
-  <div class="side-calendar-box" v-html="content" />
+  <div
+    class="side-calendar-box"
+    v-html="content"
+  />
 </template>
 
 <script>

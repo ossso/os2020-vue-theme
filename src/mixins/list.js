@@ -8,11 +8,13 @@ export default {
       list: [],
       page: {
         fistLoaded: false,
-        pagenow: 0,
+        page: 0,
         loading: true,
         loadOver: false,
         loadError: false,
-        pagination: {},
+        pagebar: {
+          PrePageCount: 10,
+        },
       },
     };
   },

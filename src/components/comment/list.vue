@@ -1,7 +1,9 @@
 <template>
   <div class="comment-list">
     <div class="mode-head">
-      <h3 class="comment-title">参与评论</h3>
+      <h3 class="comment-title">
+        参与评论
+      </h3>
     </div>
     <comment-post />
     <div class="list-container">

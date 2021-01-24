@@ -1,6 +1,8 @@
 <template>
   <div class="page-404">
-    <h2 v-if="lang.error">{{ lang.error[2] }}</h2>
+    <h2 v-if="lang.error">
+      {{ lang.error[2] }}
+    </h2>
   </div>
 </template>
 

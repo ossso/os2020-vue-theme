@@ -2,6 +2,8 @@
  * 原生链接处理工具
  */
 
+import routesQueryParams from './routes-query-params';
+
 function linkHandle(e) {
   // e.preventDefault();
   const {
@@ -39,10 +41,10 @@ function linkHandle(e) {
       return;
     }
     const params = new URLSearchParams(toUrl.search.split('?')[1]);
-    const routesArray = Object.keys(window.$os2020.routes);
+    const routesArray = Object.keys(routesQueryParams);
     for (let i = 0; i < routesArray.length; i += 1) {
       const key = routesArray[i];
-      const item = window.$os2020.routes[key];
+      const item = routesQueryParams[key];
       const param = params.get(item.param);
       if (param) {
         const info = {};

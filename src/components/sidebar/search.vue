@@ -1,13 +1,19 @@
 <template>
   <div class="side-search-group">
-    <form action="#" class="search-form" onsubmit="return false;">
+    <form
+      action="#"
+      class="search-form"
+      onsubmit="return false;"
+    >
       <input
         v-model="keyword"
         class="search-input"
         type="text"
         placeholder="请输入搜索关键词"
       >
-      <button class="search-submit">搜索</button>
+      <button class="search-submit">
+        搜索
+      </button>
     </form>
   </div>
 </template>

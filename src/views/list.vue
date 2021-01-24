@@ -1,17 +1,21 @@
 <template>
   <div class="home-main">
-    <waterfall
-      v-if="type === 'waterfall'"
-      :list="list"
-      :column="2"
-    />
-    <div v-else class="list-box">
+    <div
+      class="list-box"
+    >
       <article-multi
         v-for="(item, index) in list"
         :key="`${item.ID}_${index}`"
         :article="item"
       />
     </div>
+    <a-pagination
+      v-model="page.page"
+      :total="page.pagebar.AllCount"
+      :page-size="page.pagebar.PrePageCount"
+      show-less-items
+      @change="loadList"
+    />
   </div>
 </template>
 
@@ -20,7 +24,6 @@
  * 首页
  */
 import listMixin from '@/mixins/list';
-import Waterfall from '@/components/waterfall/index.vue';
 import ArticleMulti from '@/components/article/multi.vue';
 
 const LIST_COMMON_QUERY = {
@@ -35,7 +38,6 @@ const LIST_COMMON_QUERY = {
 export default {
   name: 'ArticleList',
   components: {
-    Waterfall,
     ArticleMulti,
   },
   mixins: [listMixin],
@@ -151,25 +153,22 @@ export default {
     /**
      * 加载文章列表
      */
-    loadList(pagenow = 1) {
+    loadList(page = 1) {
       this.$api({
         query: {
           ...this.cache.query,
-          pagenow,
+          page,
         },
       }).then((res) => {
-        if (pagenow === 1) {
-          this.list = [];
-        }
-        this.list.push(...res.list.map((i) => {
+        this.list = res.list.map((i) => {
           const item = { ...i };
           item.Content = this.$htmlEscape(item.Content);
           item.Intro = this.$htmlEscape(item.Intro);
           return item;
-        }));
-        this.page.pagenow = pagenow;
-        if (res.pagination.pageAll) {
-          this.page.pagination = res.pagination;
+        });
+        this.page.page = page;
+        if (res.pagebar) {
+          this.page.pagebar = res.pagebar;
         } else {
           this.page.loadError = false;
           this.page.loadOver = true;

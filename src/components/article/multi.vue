@@ -1,14 +1,29 @@
 <template>
-  <router-link :to="routeInfo" :title="article.Title" class="article-multi">
+  <router-link
+    :to="routeInfo"
+    :title="article.Title"
+    class="article-multi"
+  >
     <div class="article-multi-main">
       <div class="article-multi-head">
-        <h2 class="title">{{ article.Title }}</h2>
-        <div class="article-intro" v-html="article.Intro" />
+        <h2 class="title">
+          {{ article.Title }}
+        </h2>
+        <div
+          class="article-intro"
+          v-html="article.Intro"
+        />
       </div>
       <article-info :article="article" />
     </div>
-    <div v-if="article.Thumb" class="article-cover">
-      <img :src="article.Thumb" :alt="article.Title">
+    <div
+      v-if="article.Thumb"
+      class="article-cover"
+    >
+      <img
+        :src="article.Thumb"
+        :alt="article.Title"
+      >
     </div>
   </router-link>
 </template>

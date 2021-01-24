@@ -1,6 +1,12 @@
 <template>
-  <div class="side-item" :class="{ 'hide-title': item.IsHideTitle }">
-    <div v-if="!item.IsHideTitle" class="side-item-head">
+  <div
+    class="side-item"
+    :class="{ 'hide-title': item.IsHideTitle }"
+  >
+    <div
+      v-if="!item.IsHideTitle"
+      class="side-item-head"
+    >
       <h3>{{ item.Name }}</h3>
     </div>
     <template v-if="item.FileName === 'calendar'">
