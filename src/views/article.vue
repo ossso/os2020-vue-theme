@@ -67,7 +67,7 @@ export default {
   computed: {
     date() {
       if (this.info && this.info.PostTime) {
-        return this.$dateFormat.format('yyyy/mm/dd hh:ii', this.info.PostTime * 1000);
+        return this.$quickDate.format('yyyy/mm/dd hh:ii', this.info.PostTime * 1000);
       }
       return '';
     },
@@ -94,6 +94,7 @@ export default {
       }
       if (this.id > 0) {
         this.loadArticleInfo();
+        this.$store.commit('setRefreshSidebar', true);
       } else {
         this.$router.replace({
           name: '404',

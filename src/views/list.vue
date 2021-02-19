@@ -47,14 +47,7 @@ export default {
     };
   },
   mounted() {
-    this.cache.watcher = this.$watch('$route', () => {
-      this.$store.commit('setRefreshSidebar', true);
-      this.initInfo();
-    });
     this.initInfo();
-  },
-  destroyed() {
-    this.cache.watcher();
   },
   methods: {
     /**
@@ -98,7 +91,7 @@ export default {
             if (date.indexOf('-') === date.lastIndexOf('-')) {
               return `${date.replace('-', '年')}月`;
             }
-            return this.$dateFormat.format('yyyy年mm月dd日', date);
+            return this.$quickDate.format('yyyy年mm月dd日', date);
           };
           break;
         }
@@ -149,6 +142,7 @@ export default {
       }
       this.loadList(1);
       this.getPageTitle();
+      this.$store.commit('setRefreshSidebar', true);
     },
     /**
      * 加载文章列表
@@ -209,6 +203,15 @@ export default {
         }
       });
     },
+  },
+  /**
+   * 路由守卫
+   */
+  beforeRouteUpdate(to, from, next) {
+    setTimeout(() => {
+      this.initInfo();
+    }, 100);
+    next();
   },
 };
 </script>

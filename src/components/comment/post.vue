@@ -56,10 +56,20 @@
         </div>
         <div class="comment-post-foot">
           <div class="comment-vaildate-image" />
-          <button
-            class="submit-btn"
-            @click="onSubmit"
-          >发表评论</button>
+          <div class="comment-operate-box">
+            <span
+              v-if="isReply"
+              class="cancel-btn"
+              @click="cancelReply"
+            >
+              <a-icon type="close-circle" />
+              <span class="text">取消回复</span>
+            </span>
+            <button
+              class="submit-btn"
+              @click="onSubmit"
+            >发表评论</button>
+          </div>
         </div>
       </form>
     </a-spin>
@@ -75,6 +85,12 @@ import Schema from 'async-validator';
 
 export default {
   name: 'CommentPost',
+  props: {
+    isReply: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       loading: false,
@@ -125,6 +141,13 @@ export default {
           },
         },
       });
+      Object.keys(this.commentUser)
+        .forEach((i) => {
+          const val = window.localStorage.getItem(`comment_${i}`);
+          if (val) {
+            this.commentUser[i] = val;
+          }
+        });
     },
     /**
      * 触发提交 - 提交前的验证
@@ -151,10 +174,27 @@ export default {
     submitForm(formData) {
       this.loading = true;
       this.$store.dispatch('comment/post', formData).then(() => {
+        Object.keys(this.commentUser)
+          .forEach((i) => {
+            if (this.commentUser[i]) {
+              window.localStorage.setItem(
+                `comment_${i}`,
+                this.commentUser[i],
+              );
+            }
+          });
         this.form.Content = '';
+      }).catch((err) => {
+        this.$message.error(err.message || '评论失败');
       }).finally(() => {
         this.loading = false;
       });
+    },
+    /**
+     * 取消回复
+     */
+    cancelReply() {
+      this.$store.commit('comment/setReplyId', null);
     },
   },
 };
@@ -197,6 +237,26 @@ export default {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
+
+    .comment-operate-box {
+      display: flex;
+    }
+
+    .cancel-btn {
+      margin: auto 10px;
+      font-size: 12px;
+      color: #aaa;
+      cursor: pointer;
+      transition: all 150ms ease-in-out;
+
+      .text {
+        margin-left: 5px;
+      }
+
+      &:hover {
+        color: #333;
+      }
+    }
 
     .submit-btn {
       width: 150px;

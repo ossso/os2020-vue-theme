@@ -13,7 +13,11 @@
     <div class="comment-item-head">
       <span class="nickname">{{ item.Author.StaticName }}</span>
       <span>
-        <span class="reply-btn">@回复Ta</span>
+        <span
+          v-show="!activeReplyPost"
+          class="reply-btn"
+          @click="activeReply"
+        >@回复Ta</span>
         <span class="post-date">{{ date }}</span>
       </span>
     </div>
@@ -27,6 +31,13 @@
         :item="childItem"
       />
     </div>
+    <transition name="fade-transform">
+      <comment-post
+        v-if="activeReplyPost"
+        class="comment-child-reply-post"
+        :is-reply="true"
+      />
+    </transition>
   </div>
 </template>
 
@@ -34,8 +45,17 @@
 /**
  * 评论的单条
  */
+
+import {
+  mapState,
+} from 'vuex';
+import CommentPost from './post.vue';
+
 export default {
   name: 'CommentItem',
+  components: {
+    CommentPost,
+  },
   props: {
     item: {
       type: Object,
@@ -47,14 +67,24 @@ export default {
     },
   },
   computed: {
+    ...mapState({
+      activeReplyPost(state) {
+        return state.comment.replyId === this.item.ID;
+      },
+    }),
     date() {
       if (this.item.PostTime) {
         if (Date.now() - (this.item.PostTime * 1000) < 30 * 24 * 60 * 60 * 1000) {
-          return this.$dateFormat.ago(this.item.PostTime * 1000);
+          return this.$quickDate.ago(this.item.PostTime * 1000);
         }
-        return this.$dateFormat.format('yyyy/mm/dd hh:ii', this.item.PostTime * 1000);
+        return this.$quickDate.format('yyyy/mm/dd hh:ii', this.item.PostTime * 1000);
       }
       return '';
+    },
+  },
+  methods: {
+    activeReply() {
+      this.$store.commit('comment/setReplyId', this.item.ID);
     },
   },
 };
@@ -112,6 +142,10 @@ export default {
   .comment-item-content {
     line-height: 1.6;
     font-size: 14px;
+  }
+
+  .comment-child-reply-post {
+    margin-top: 10px;
   }
 
   &:hover {

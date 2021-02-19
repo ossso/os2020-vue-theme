@@ -5,7 +5,11 @@
         参与评论
       </h3>
     </div>
-    <comment-post />
+    <transition name="fade">
+      <comment-post
+        v-show="!replyActived"
+      />
+    </transition>
     <div class="list-container">
       <comment-item
         v-for="(item, index) in list"
@@ -42,13 +46,31 @@ export default {
   computed: {
     ...mapState({
       list: (state) => state.comment.list,
+      replyActived: (state) => Boolean(state.comment.replyId),
     }),
   },
+  watch: {
+    postId(n, o) {
+      if (n !== o) {
+        this.initCommentData();
+      }
+    },
+  },
   mounted() {
-    this.$store.commit('comment/init', {
-      postId: this.postId,
-    });
-    this.$store.dispatch('comment/list');
+    if (this.postId) {
+      this.initCommentData();
+    }
+  },
+  methods: {
+    /**
+     * 初始化评论
+     */
+    initCommentData() {
+      this.$store.commit('comment/init', {
+        postId: this.postId,
+      });
+      this.$store.dispatch('comment/list');
+    },
   },
 };
 </script>

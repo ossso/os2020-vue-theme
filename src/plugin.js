@@ -6,7 +6,7 @@ import {
   message,
 } from 'ant-design-vue';
 import api from './api';
-import dateFormat from './utils/date-format';
+import quickDate from './utils/quick-date';
 import globalMixin from './mixins/global';
 
 const install = (Vue) => {
@@ -15,7 +15,7 @@ const install = (Vue) => {
   Vue.mixin(globalMixin);
 
   Vue.prototype.$api = api;
-  Vue.prototype.$dateFormat = dateFormat;
+  Vue.prototype.$quickDate = quickDate;
 
   /**
    * 实体转字符串
