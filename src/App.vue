@@ -60,7 +60,7 @@ export default {
       for (const [k, v] of params) {
         query[k] = v;
       }
-      console.log(query);
+      // console.log(query);
       if (query.id) {
         this.$router.replace({
           name: 'Article',
