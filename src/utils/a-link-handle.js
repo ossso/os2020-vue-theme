@@ -15,12 +15,16 @@ function linkHandle(e) {
   } catch (error) {
     toUrl = {};
   }
-  if (href.indexOf(this.zbp.host) !== 0 // 不包含zbp的host
-      && href.indexOf(window.location.origin) !== 0 // 不包含当前的host
-      && toUrl.protocol // 有访问协议
-      && toUrl.pathname.indexOf('/zb_system/') !== 0
-      && toUrl.pathname.indexOf('/zb_user/') !== 0
-  ) {
+  const isOtherHost = (
+    href.indexOf(this.zbp.host) === -1 // 不包含zbp的host
+    && href.indexOf(window.location.origin) === -1 // 不包含当前的host
+    && toUrl.protocol // 有访问协议
+  );
+  const isZbpPath = (
+    toUrl.pathname.indexOf('/zb_system/') > -1 // 包含zb_system
+    || toUrl.pathname.indexOf('/zb_users/') > -1 // 包含zb_users
+  );
+  if (isOtherHost || isZbpPath) {
     return;
   }
   // 如果href仅仅是路径，需要额外处理一下
