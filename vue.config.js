@@ -19,6 +19,7 @@ const config = {
   devServer,
   lintOnSave: false,
   publicPath: '/',
+  assetsDir: 'zb_users/theme/os2020/static/',
   outputDir: 'dist',
   pages: {
     index: {
