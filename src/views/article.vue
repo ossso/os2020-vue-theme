@@ -78,6 +78,13 @@ export default {
       return false;
     },
   },
+  watch: {
+    $route() {
+      setTimeout(() => {
+        this.initInfo();
+      }, 100);
+    },
+  },
   mounted() {
     this.initInfo();
   },
@@ -153,15 +160,15 @@ export default {
       });
     },
   },
-  /**
-   * 路由守卫
-   */
-  beforeRouteUpdate(to, from, next) {
-    setTimeout(() => {
-      this.initInfo();
-    }, 100);
-    next();
-  },
+  // /**
+  //  * 路由守卫
+  //  */
+  // beforeRouteUpdate(to, from, next) {
+  //   setTimeout(() => {
+  //     this.initInfo();
+  //   }, 100);
+  //   next();
+  // },
 };
 </script>
 
