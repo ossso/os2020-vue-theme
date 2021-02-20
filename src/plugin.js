@@ -2,9 +2,7 @@
  * 声明应用所需的自定义插件
  */
 
-import {
-  message,
-} from 'ant-design-vue';
+import message from 'ant-design-vue/lib/message';
 import api from './api';
 import quickDate from './utils/quick-date';
 import globalMixin from './mixins/global';

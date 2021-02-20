@@ -1,10 +1,11 @@
 import Vue from 'vue';
-import {
-  Icon,
-  Spin,
-  Pagination,
-} from 'ant-design-vue';
-import 'ant-design-vue/dist/antd.css';
+import Icon from 'ant-design-vue/lib/icon';
+import Spin from 'ant-design-vue/lib/spin';
+import Pagination from 'ant-design-vue/lib/pagination';
+import 'ant-design-vue/lib/icon/style/css';
+import 'ant-design-vue/lib/spin/style/css';
+import 'ant-design-vue/lib/pagination/style/css';
+import 'ant-design-vue/lib/message/style/css';
 import App from './App.vue';
 import router from './router';
 import store from './store';

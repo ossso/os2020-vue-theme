@@ -1,9 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {
-  message,
-} from 'ant-design-vue';
+import message from 'ant-design-vue/lib/message';
 import comment from './modules/comment';
 import user from './modules/user';
 
