@@ -1,8 +1,7 @@
 <template>
   <div class="comment-post">
-    <a-spin
-      :spinning="loading"
-      tip="Loading..."
+    <ui-loading
+      :loading="loading"
     >
       <form
         action="#"
@@ -62,7 +61,7 @@
               class="cancel-btn"
               @click="cancelReply"
             >
-              <a-icon type="close-circle" />
+              <span>×</span>
               <span class="text">取消回复</span>
             </span>
             <button
@@ -72,7 +71,7 @@
           </div>
         </div>
       </form>
-    </a-spin>
+    </ui-loading>
   </div>
 </template>
 
@@ -250,7 +249,7 @@ export default {
       transition: all 150ms ease-in-out;
 
       .text {
-        margin-left: 5px;
+        margin-left: 3px;
       }
 
       &:hover {

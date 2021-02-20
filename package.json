@@ -9,7 +9,6 @@
     "fix": "eslint --fix --ext .js,.vue src"
   },
   "dependencies": {
-    "ant-design-vue": "^1.7.2",
     "async-validator": "^3.5.1",
     "axios": "^0.20.0",
     "clipboard-polyfill": "^3.0.1",

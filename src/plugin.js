@@ -2,12 +2,17 @@
  * 声明应用所需的自定义插件
  */
 
-import message from 'ant-design-vue/lib/message';
 import api from './api';
 import quickDate from './utils/quick-date';
 import globalMixin from './mixins/global';
+import message from './ui/message';
+
+import UILoading from './ui/loading/main.vue';
+import UIPagination from './ui/pagination/main.vue';
 
 const install = (Vue) => {
+  Vue.component('ui-loading', UILoading);
+  Vue.component('ui-pagination', UIPagination);
   Vue.prototype.$message = message;
 
   Vue.mixin(globalMixin);

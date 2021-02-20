@@ -1,9 +1,14 @@
 <template>
   <footer class="layout-footer">
     <div
+      v-if="copyrightString"
       class="copyright"
       v-html="copyrightString"
     />
+    <div class="program-info">
+      <span>Powered By Z-BlogPHP.</span>
+      <span>Theme By <span title="橙色阳光主题 - OS2020">OS2020</span>.</span>
+    </div>
   </footer>
 </template>
 
@@ -47,9 +52,19 @@ export default {
   background: #fff;
 
   .copyright {
+    margin-bottom: 10px;
     text-align: center;
     font-size: 14px;
     color: #aaa;
+  }
+
+  .program-info {
+    text-align: center;
+    font-size: 12px;
+    color: #aaa;
+    & > span {
+      margin: 0 3px;
+    }
   }
 }
 </style>

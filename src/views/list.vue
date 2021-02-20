@@ -9,11 +9,10 @@
         :article="item"
       />
     </div>
-    <a-pagination
+    <ui-pagination
       v-model="page.page"
       :total="page.pagebar.AllCount"
       :page-size="page.pagebar.PrePageCount"
-      show-less-items
       @change="loadList"
     />
   </div>
@@ -167,6 +166,10 @@ export default {
           item.Intro = this.$htmlEscape(item.Intro);
           return item;
         });
+        if (this.page.page !== page) {
+          window.document.body.scrollTop = 0;
+          window.document.documentElement.scrollTop = 0;
+        }
         this.page.page = page;
         if (res.pagebar) {
           this.page.pagebar = res.pagebar;
