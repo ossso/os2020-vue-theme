@@ -8,7 +8,18 @@
         onsubmit="return false;"
         @submit.stop=""
       >
-        <div class="comment-user-group">
+        <div
+          v-if="userinfo.ID"
+          class="comment-user-group"
+        >
+          <label class="user-info-item">
+            <span>你好，{{ userinfo.StaticName }}</span>
+          </label>
+        </div>
+        <div
+          v-else
+          class="comment-user-group"
+        >
           <label class="user-info-item">
             <span class="label-name">昵称</span>
             <input
@@ -142,7 +153,7 @@ export default {
       });
       Object.keys(this.commentUser)
         .forEach((i) => {
-          const val = window.localStorage.getItem(`comment_${i}`);
+          const val = this.userinfo[i] || window.localStorage.getItem(`comment_${i}`);
           if (val) {
             this.commentUser[i] = val;
           }
@@ -173,15 +184,17 @@ export default {
     submitForm(formData) {
       this.loading = true;
       this.$store.dispatch('comment/post', formData).then(() => {
-        Object.keys(this.commentUser)
-          .forEach((i) => {
-            if (this.commentUser[i]) {
-              window.localStorage.setItem(
-                `comment_${i}`,
-                this.commentUser[i],
-              );
-            }
-          });
+        if (!this.userinfo.ID) {
+          Object.keys(this.commentUser)
+            .forEach((i) => {
+              if (this.commentUser[i]) {
+                window.localStorage.setItem(
+                  `comment_${i}`,
+                  this.commentUser[i],
+                );
+              }
+            });
+        }
         this.form.Content = '';
       }).catch((err) => {
         this.$message.error(err.message || '评论失败');
