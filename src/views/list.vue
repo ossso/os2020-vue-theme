@@ -12,7 +12,7 @@
     <ui-pagination
       v-model="page.page"
       :total="page.pagebar.AllCount"
-      :page-size="page.pagebar.PrePageCount"
+      :page-size="page.pagebar.PerPageCount"
       @change="loadList"
     />
   </div>
