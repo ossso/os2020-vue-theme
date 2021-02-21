@@ -41,6 +41,13 @@ const routes = [
     component: () => import('@/views/list.vue'),
   }, {
     path: '/',
+    name: 'Search',
+    meta: {
+      sidebar: true,
+    },
+    component: () => import('@/views/list.vue'),
+  }, {
+    path: '/',
     name: 'Article',
     meta: {
       sidebar: true,

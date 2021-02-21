@@ -91,6 +91,12 @@ export default {
           query,
         });
       }
+      if (query.search) {
+        this.$router.replace({
+          name: 'Search',
+          query,
+        });
+      }
     },
   },
 };

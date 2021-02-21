@@ -84,6 +84,9 @@ const install = (Vue) => {
       case 'Tags':
         query.tags = info.tags || info.id;
         break;
+      case 'Search':
+        query.search = info.search;
+        break;
       default:
       case 'Home':
         break;

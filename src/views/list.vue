@@ -139,6 +139,20 @@ export default {
           this.cache.titleHandle = (data) => data.tag.Name;
           break;
         }
+        case 'Search': {
+          const searchKeyword = (() => {
+            if (this.$route.params.searchKeyword) {
+              return this.$route.params.searchKeyword;
+            }
+            return this.$route.query.search;
+          })();
+          this.cache.query = {
+            ...LIST_COMMON_QUERY,
+            search: searchKeyword,
+          };
+          this.cache.titleHandle = () => searchKeyword;
+          break;
+        }
         default:
         case 'Home':
           this.cache.query = {

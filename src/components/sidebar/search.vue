@@ -11,7 +11,10 @@
         type="text"
         placeholder="请输入搜索关键词"
       >
-      <button class="search-submit">
+      <button
+        class="search-submit"
+        @click="onSubmit"
+      >
         搜索
       </button>
     </form>
@@ -28,6 +31,23 @@ export default {
     return {
       keyword: '',
     };
+  },
+  methods: {
+    onSubmit() {
+      if (this.keyword === '') {
+        this.$message.error('搜索词不能为空');
+        return;
+      }
+      if (this.$route.query.search === this.keyword) {
+        return;
+      }
+      this.$router.push({
+        name: 'Search',
+        query: {
+          search: this.keyword,
+        },
+      });
+    },
   },
 };
 </script>

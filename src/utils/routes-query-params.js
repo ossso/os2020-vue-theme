@@ -14,6 +14,9 @@ export default {
   Tags: {
     param: 'tags',
   },
+  Search: {
+    param: 'search',
+  },
   Article: {
     param: 'id',
   },
