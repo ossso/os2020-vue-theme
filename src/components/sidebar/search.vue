@@ -66,7 +66,7 @@ export default {
 
   .search-input {
     flex: 1;
-    width: auto;
+    width: 140px;
     height: 40px;
     padding: 5px 10px;
     line-height: 28rpx;
