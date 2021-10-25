@@ -1,6 +1,11 @@
 <template>
   <div class="ui-pagination-bar">
-    <span class="page-item">上一页</span>
+    <span
+      class="page-item"
+      @click="prevPage"
+    >
+      上一页
+    </span>
     <span
       v-for="item in pagebar"
       :key="item.name"
@@ -10,7 +15,12 @@
     >
       {{ item.value }}
     </span>
-    <span class="page-item">下一页</span>
+    <span
+      class="page-item"
+      @click="nextPage"
+    >
+      下一页
+    </span>
   </div>
 </template>
 
@@ -44,7 +54,10 @@ export default {
   computed: {
     pagebar() {
       try {
-        return parse(this.value, this.pageSize, this.total, this.barCount).pagebar;
+        const {
+          pagebar = [],
+        } = parse(this.value, this.pageSize, this.total, this.barCount);
+        return pagebar;
       } catch {
         return [];
       }
@@ -56,6 +69,20 @@ export default {
     },
   },
   methods: {
+    prevPage() {
+      const num = this.value - 1;
+      if (num < 1) {
+        return;
+      }
+      this.$emit('change', num);
+    },
+    nextPage() {
+      const num = this.value + 1;
+      if (num > this.total) {
+        return;
+      }
+      this.$emit('change', num);
+    },
     changePage(item) {
       if (item.value !== this.value) {
         this.$emit('change', item.value);
