@@ -75,6 +75,7 @@ export default {
         return;
       }
       this.$emit('change', num);
+      this.value = num;
     },
     nextPage() {
       const num = this.value + 1;
@@ -82,6 +83,7 @@ export default {
         return;
       }
       this.$emit('change', num);
+      this.value = num;
     },
     changePage(item) {
       if (item.value !== this.value) {
